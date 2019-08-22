@@ -8,9 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v1
     - name: Run a multi-line script
       run: |
         mkdir ~/.ssh/
@@ -25,13 +23,21 @@ jobs:
         cd src || exit -1
         python3 -m main
         cd .. || exit -1
-        mv data "$GITHUB_WORKSPACE"
-        ls "$GITHUB_WORKSPACE"
+        echo "$HUB_KEY" > ~/.ssh/id_rsa
+        git clone --single-branch --branch master "$HUB_REPO" hello
+        mv hello/.git data
+        cd data || exit -1
+        git config user.name $HUB_NAME
+        git config user.email $HUB_EMAIL
+        git add .
+        git commit -am'update'
+        git push
+        
       env:
         DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
         DEPLOY_REPO: ${{ secrets.DEPLOY_REPO }}
-    - uses: bumfo/push-workspace@v1-release
-      with:
-        ref: 'refs/heads/master'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        HUB_KEY: ${{ secrets.HUB_KEY }}
+        HUB_REPO: ${{ secrets.HUB_REPO }}
+        HUB_NAME: ${{ secrets.HUB_NAME }}
+        HUB_EMAIL: ${{ secrets.HUB_EMAIL }}
+
