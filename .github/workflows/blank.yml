@@ -13,6 +13,7 @@ jobs:
         mkdir ~/.ssh/
         chmod 700 ~/.ssh/
         echo "$DEPLOY_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
         echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
         git clone "$DEPLOY_REPO"
       env:
