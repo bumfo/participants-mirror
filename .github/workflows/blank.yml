@@ -13,6 +13,7 @@ jobs:
         mkdir ~/.ssh/
         chmod 700 ~/.ssh/
         echo "$DEPLOY_KEY" > ~/.ssh/id_rsa
+        ssh-keygen -R github.com
         git clone "$DEPLOY_REPO"
       env:
         DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
