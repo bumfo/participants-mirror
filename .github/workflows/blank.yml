@@ -33,7 +33,7 @@ jobs:
         git config user.name $HUB_NAME
         git config user.email $HUB_EMAIL
         git add .
-        git commit -am'update'
+        git commit -am'update' || exit 0
         git push
         
       env:
