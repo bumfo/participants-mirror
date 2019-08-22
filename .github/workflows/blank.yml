@@ -19,8 +19,8 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
         cd ~
-        git clone "$DEPLOY_REPO" work
-        cd work || exit -1
+        git clone "$DEPLOY_REPO" working
+        cd working || exit -1
         mkdir data
         cd src || exit -1
         python3 -m main
@@ -30,8 +30,8 @@ jobs:
       env:
         DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
         DEPLOY_REPO: ${{ secrets.DEPLOY_REPO }}
-#     - uses: bumfo/push-workspace@v1-release
-#       with:
-#         ref: 'refs/heads/master'
-#       env:
-#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: bumfo/push-workspace@v1-release
+      with:
+        ref: 'refs/heads/master'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
