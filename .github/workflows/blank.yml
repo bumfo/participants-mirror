@@ -10,6 +10,8 @@ jobs:
     steps:
     - name: Run a multi-line script
       run: |
+        mkdir ~/.ssh/
+        chmod 700 ~/.ssh/
         echo "$DEPLOY_KEY" > ~/.ssh/id_rsa
         git clone "$DEPLOY_REPO"
       env:
