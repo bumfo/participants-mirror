@@ -1,10 +1,12 @@
 name: Update
 
-on: [push]
+on:
+  push:
+    branches:
+    - leader
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     
     steps:
@@ -16,7 +18,9 @@ jobs:
         echo "$DEPLOY_KEY" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-        git clone "$DEPLOY_REPO" .
+        cd ~
+        git clone "$DEPLOY_REPO" work
+        cd work || exit -1
         mkdir data
         cd src || exit -1
         python3 -m main
