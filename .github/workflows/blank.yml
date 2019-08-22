@@ -4,6 +4,9 @@ on:
   push:
     branches:
     - leader
+  schedule:
+  - cron: '0 * * * *'
+  repository_dispatch: {}
 
 jobs:
   build:
