@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+    - uses: actions/checkout@v1
     - name: Run a multi-line script
       run: |
         mkdir ~/.ssh/
@@ -15,7 +16,18 @@ jobs:
         echo "$DEPLOY_KEY" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-        git clone "$DEPLOY_REPO"
+        git clone "$DEPLOY_REPO" .
+        mkdir data
+        cd src || exit -1
+        python3 -m main
+        cd .. || exit -1
+        mv data "$GITHUB_WORKSPACE"
+        ls "$GITHUB_WORKSPACE"
       env:
         DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
         DEPLOY_REPO: ${{ secrets.DEPLOY_REPO }}
+#     - uses: bumfo/push-workspace@v1-release
+#       with:
+#         ref: 'refs/heads/master'
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
