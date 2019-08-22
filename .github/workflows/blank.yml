@@ -10,5 +10,8 @@ jobs:
     steps:
     - name: Run a multi-line script
       run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+        echo "$DEPLOY_KEY" > ~/.ssh/id_rsa
+        git clone "$DEPLOY_REPO"
+      env:
+        DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+        DEPLOY_REPO: ${{ secrets.DEPLOY_REPO }}
