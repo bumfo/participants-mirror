@@ -43,4 +43,3 @@ jobs:
         HUB_REPO: ${{ secrets.HUB_REPO }}
         HUB_NAME: ${{ secrets.HUB_NAME }}
         HUB_EMAIL: ${{ secrets.HUB_EMAIL }}
-
