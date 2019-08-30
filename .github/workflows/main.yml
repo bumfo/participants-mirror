@@ -20,16 +20,13 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
         cd ~
-        git clone "$DEPLOY_REPO" working
+        git clone --single-branch --branch master "$DEPLOY_REPO" working
         cd working || exit -1
-        mkdir data
-        cd src || exit -1
-        python3 -m main
-        cd .. || exit -1
         echo "$HUB_KEY" > ~/.ssh/id_rsa
-        git clone --single-branch --branch master "$HUB_REPO" hello
-        mv hello/.git data
-        cd data || exit -1
+        git clone --single-branch --branch master "$HUB_REPO" data
+        cd src || exit -1
+        python3 -m main || exit -1
+        cd ../data || exit -1
         git config user.name $HUB_NAME
         git config user.email $HUB_EMAIL
         git add .
