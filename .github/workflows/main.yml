@@ -20,6 +20,8 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
         cd ~
+        git config --global http.lowSpeedLimit 1000
+        git config --global http.lowSpeedTime 600
         git clone --single-branch --branch master "$DEPLOY_REPO" working
         cd working || exit -1
         echo "$HUB_KEY" > ~/.ssh/id_rsa
